@@ -18,19 +18,20 @@ You should create one R script called run_analysis.R that does the following.
 ## 'folder' is a string vector containing the files of directory
     folder <- list.files(directory, full.names = TRUE)
     folder
-##  OUTPUT : ([1] "getDataProj/UCI HAR Dataset")
+##  OUTPUT : 
+[1] "getDataProj/UCI HAR Dataset"
 ## 'files' contains the files within 'folder' 
     files <- list.files(folder, full.names = TRUE)
     files
-##  OUTPUT: [1] "getDataProj/UCI HAR Dataset/activity_labels.txt" "getDataProj/UCI HAR Dataset/features.txt"       
+##  OUTPUT: 
+           [1] "getDataProj/UCI HAR Dataset/activity_labels.txt" "getDataProj/UCI HAR Dataset/features.txt"       
            [3] "getDataProj/UCI HAR Dataset/features_info.txt"   "getDataProj/UCI HAR Dataset/README.txt"         
            [5] "getDataProj/UCI HAR Dataset/test"                "getDataProj/UCI HAR Dataset/train"
 ## 'test' and 'train' extract the fifth and sixth elements respectively of 'files'
     test <- files[5]
     train <- files[6]
 
-## Read and combine 'subject_test.txt', 'X_test.txt', and 'y_test.txt' from 'test' folder to create one data set
-## called 'test_x' that contains all the data relevant to the testing data set.
+## Read and combine 'subject_test.txt', 'X_test.txt', and 'y_test.txt' from 'test' folder to create one data set called 'test_x' that contains all the data relevant to the testing data set.
     test_files <- list.files(test, full.names = TRUE)
     test_sub <- read.table(test_files[2]) ## 2947 obs, 1 var
     test_x <- read.table(test_files[3])   ## 2947 obs, 561 vars
@@ -69,14 +70,13 @@ You should create one R script called run_analysis.R that does the following.
  'tBodyGyroMean', 'tBodyGyroJerkMean' because I felt these variables themselves represented the mean, and the mean
  of these variables were not actually being calculated.
 
- Create factor variable for 'Activity' with descriptive levels
+## Create factor variable for 'Activity' with descriptive levels
     pd2$Activity <- factor(pd2$X67)
     levels(pd2$Activity) <- c("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", 
                               "SITTING", "STANDING", "LAYING")
 
 
 ## Rename variables so that they are more descriptive
-* FOR MORE INFORMATION on variable names, see the 'Codebook' file.
     names(pd2) <- c("Mean_BodyTime_Accelerometer_Xaxis", "Mean_BodyTime_Accelerometer_Yaxis",
                 "Mean_BodyTime_Accelerometer_Zaxis", "StDev_BodyTime_Accelerometer_Xaxis",
                 "StDev_BodyTime_Accelerometer_Yaxis", "StDev_BodyTime_Accelerometer_Zaxis", 
@@ -114,6 +114,7 @@ You should create one R script called run_analysis.R that does the following.
                 "Mean_BodyFrequencyDomain_Gyroscope_Magnitude", "StDev_BodyFrequencyDomain_Gyroscope_Magnitude",
                 "Mean_BodyJerkFrequencyDomain_Gyroscope_Magnitude", 
                 "StDev_BodyJerkFrequencyDomain_Gyroscope_Magnitude", "SubjectID", "Activity")
+* FOR MORE INFORMATION on variable names, see the 'Codebook' file.
 
 ## Create new, tidy data set with the average of each variable for each activity and each subject
 ## Melt data set using only 'SubjectID' and 'Activity' as ID variables
@@ -151,7 +152,7 @@ You should create one R script called run_analysis.R that does the following.
       "StDev_BodyJerkFrequencyDomain_Accelerometer_Magnitude", "Mean_BodyFrequencyDomain_Gyroscope_Magnitude",
       "StDev_BodyFrequencyDomain_Gyroscope_Magnitude", "Mean_BodyJerkFrequencyDomain_Gyroscope_Magnitude",
       "StDev_BodyJerkFrequencyDomain_Gyroscope_Magnitude"))
-## Cast the data set so that the rows are consolidated by 'SubjectID' and 'Activity', and the means of the rest of the ## measurements for each person and activity are calculated.
+## Cast the data set so that the rows are consolidated by 'SubjectID' and 'Activity', and the means of the rest of the measurements for each person and activity are calculated.
     tidy <- dcast(pdMelt, SubjectID + Activity ~ variable, mean)
     View(tidy)
 
