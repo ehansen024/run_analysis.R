@@ -1,0 +1,20 @@
+CODEBOOK
+
+Each variable in the dataset is broken down into the following four parts:
+1.	Calculation. The data set contains calculations of either the mean or the standard deviation of each measurement. The relevant calculation is denoted by one of the following:
+        a.	Mean
+        b.	StDev
+2.	Measurement. A combination of measurements was taken for each subject. The acceleration signals were separated into ‘Body’ and ‘Gravity’ using a low pass Butterworth filter with a corner frequency of 0.3Hz.  Additional ‘Jerk’ signals were derived using the body linear acceleration and angular velocity. ‘Time’ domain signals were captured at a constant rate of 50 Hz and filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. ‘FrequencyDomain’ pertains to the frequency domain signals obtained when applying  a Fast Fourier Transform (FFT) to the ‘body’  and ‘jerk’ signals. The combination of these variables are as follows:
+        a.	BodyTime
+        b.	GravityTime
+        c.	BodyJerkTime
+        d.	BodyFrequencyDomain
+        e.	BodyJerkFrequencyDomain
+3.	Type of raw signal. The measurements in the data set come from either accelerometer or gyroscope  raw signals.
+        a.	Accelerometer
+        b.	Gyroscope
+4.	Dimension. The raw signals were taken on each of three axes. The magnitude of the signals was also calculated using the Euclidean norm.
+        a.	Xaxis
+        b.	Yaxis
+        c.	Zaxis
+        d.	Magnitude
