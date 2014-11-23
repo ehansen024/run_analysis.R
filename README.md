@@ -1,7 +1,7 @@
 run_analysis.R
 ==============
 
-Instructions for Course Project:
+# Instructions for Course Project:
 You should create one R script called run_analysis.R that does the following. 
   1.Merges the training and the test sets to create one data set.
   2.Extracts only the measurements on the mean and standard deviation for each measurement. 
@@ -9,28 +9,28 @@ You should create one R script called run_analysis.R that does the following.
   4.Appropriately labels the data set with descriptive variable names. 
   5.From the data set in step 4, creates a second, independent tidy data set with the average of each variable for        each activity and each subject.
 
-## First Step: download raw data using the URL provided on the Course Project webpage.
+# First Step: download raw data using the URL provided on the Course Project webpage.
     fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
     download.file(fileURL, destfile = "./projdata.zip")
     unzip("./projdata.zip", exdir="getDataProj")
-## Create new directory to store all files
+# Create new directory to store all files
     directory <- "getDataProj"
-## 'folder' is a string vector containing the files of directory
+# 'folder' is a string vector containing the files of directory
     folder <- list.files(directory, full.names = TRUE)
     folder
 #  OUTPUT : ([1] "getDataProj/UCI HAR Dataset")
-## 'files' contains the files within 'folder' 
+# 'files' contains the files within 'folder' 
     files <- list.files(folder, full.names = TRUE)
     files
 #  OUTPUT: [1] "getDataProj/UCI HAR Dataset/activity_labels.txt" "getDataProj/UCI HAR Dataset/features.txt"       
            [3] "getDataProj/UCI HAR Dataset/features_info.txt"   "getDataProj/UCI HAR Dataset/README.txt"         
            [5] "getDataProj/UCI HAR Dataset/test"                "getDataProj/UCI HAR Dataset/train"
-## 'test' and 'train' extract the fifth and sixth elements respectively of 'files'
+# 'test' and 'train' extract the fifth and sixth elements respectively of 'files'
     test <- files[5]
     train <- files[6]
 
-## Read and combine 'subject_test.txt', 'X_test.txt', and 'y_test.txt' from 'test' folder to create one data set
-## called 'test_x' that contains all the data relevant to the testing data set.
+# Read and combine 'subject_test.txt', 'X_test.txt', and 'y_test.txt' from 'test' folder to create one data set
+# called 'test_x' that contains all the data relevant to the testing data set.
     test_files <- list.files(test, full.names = TRUE)
     test_sub <- read.table(test_files[2]) ## 2947 obs, 1 var
     test_x <- read.table(test_files[3])   ## 2947 obs, 561 vars
@@ -38,7 +38,7 @@ You should create one R script called run_analysis.R that does the following.
     test_x$SubjectID <- test_sub$V1
     test_x$Activity <- test_y$V1
 
-## Repeat process for training data
+# Repeat process for training data
     train_files <- list.files(train, full.names = TRUE)
     train_sub <- read.table(train_files[2]) ## 7352 obs, 1 var
     train_x <- read.table(train_files[3])   ## 7352 obs, 561 vars
@@ -46,13 +46,13 @@ You should create one R script called run_analysis.R that does the following.
     train_x$SubjectID <- train_sub$V1
     train_x$Activity <- train_y$V1
 
-## Merge 'train_x' and 'test_x'
+# Merge 'train_x' and 'test_x'
     pd1 <- merge(train_x, test_x, all=TRUE)  ## 10299 obs, 563 vars
     str(pd2)
-## Replicate data frame so that original dataset is preserved in 'pd1'
+# Replicate data frame so that original dataset is preserved in 'pd1'
     pd2 <- pd1
 
-## Assign only the variables pertaining to mean and standard deviation to 'pd2'
+# Assign only the variables pertaining to mean and standard deviation to 'pd2'
     pd2 <- data.frame(cbind(pd2$V1, pd2$V2, pd2$V3, pd2$V4, pd2$V5, pd2$V6, pd2$V41, pd2$V42, pd2$V43, 
                         pd2$V44, pd2$V45, pd2$V46, pd2$V81, pd2$V82, pd2$V83, pd2$V84, pd2$V85, 
                         pd2$V86, pd2$V121, pd2$V122, pd2$V123, pd2$V124, pd2$V125, pd2$V126, pd2$V161, 
@@ -62,21 +62,21 @@ You should create one R script called run_analysis.R that does the following.
                         pd2$V348, pd2$V349, pd2$V350, pd2$V424, pd2$V425, pd2$V426, pd2$V427, pd2$V428, 
                         pd2$V429, pd2$V503, pd2$V504, pd2$V516, pd2$V517, pd2$V529, pd2$V530, pd2$V542, 
                         pd2$V543, pd2$Activity, pd2$SubjectID))
-## NOTE: The assignment asked us to "Extract only the measurements on the mean and standard deviation for each
-## measurement." Therefore, I chose to take only the variables where the mean and standard deviation were actually
-## being applied to the measurements (aka, the variables ending with 'mean()' and 'std()'. This was simply my
-## interpretation of the assignment. I chose to omit the variables 'gravityMean', 'tBodyAccMean', 'tBodyAccJerkMean',
-## 'tBodyGyroMean', 'tBodyGyroJerkMean' because I felt these variables themselves represented the mean, and the mean
-## of these variables were not actually being calculated.
+ NOTE: The assignment asked us to "Extract only the measurements on the mean and standard deviation for each
+ measurement." Therefore, I chose to take only the variables where the mean and standard deviation were actually
+ being applied to the measurements (aka, the variables ending with 'mean()' and 'std()'. This was simply my
+ interpretation of the assignment. I chose to omit the variables 'gravityMean', 'tBodyAccMean', 'tBodyAccJerkMean',
+ 'tBodyGyroMean', 'tBodyGyroJerkMean' because I felt these variables themselves represented the mean, and the mean
+ of these variables were not actually being calculated.
 
-## Create factor variable for 'Activity' with descriptive levels
+ Create factor variable for 'Activity' with descriptive levels
     pd2$Activity <- factor(pd2$X67)
     levels(pd2$Activity) <- c("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", 
                               "SITTING", "STANDING", "LAYING")
 
 
-## Rename variables so that they are more descriptive
-## FOR MORE INFORMATION on variable names, see the 'Codebook' file.
+* Rename variables so that they are more descriptive*
+ FOR MORE INFORMATION on variable names, see the 'Codebook' file.
     names(pd2) <- c("Mean_BodyTime_Accelerometer_Xaxis", "Mean_BodyTime_Accelerometer_Yaxis",
                 "Mean_BodyTime_Accelerometer_Zaxis", "StDev_BodyTime_Accelerometer_Xaxis",
                 "StDev_BodyTime_Accelerometer_Yaxis", "StDev_BodyTime_Accelerometer_Zaxis", 
