@@ -40,7 +40,10 @@ train_x$Activity <- train_y$V1
 ## Merge training and testing
 pd1 <- merge(train_x, test_x, all=TRUE)  ## 10299 obs, 563 vars
 str(pd2)
+## Preserve original data set
 pd2 <- pd1
+
+## Create data frame with only variables measuring mean and standard deviation
 pd2 <- data.frame(cbind(pd2$V1, pd2$V2, pd2$V3, pd2$V4, pd2$V5, pd2$V6, pd2$V41, pd2$V42, pd2$V43, 
                         pd2$V44, pd2$V45, pd2$V46, pd2$V81, pd2$V82, pd2$V83, pd2$V84, pd2$V85, 
                         pd2$V86, pd2$V121, pd2$V122, pd2$V123, pd2$V124, pd2$V125, pd2$V126, pd2$V161, 
